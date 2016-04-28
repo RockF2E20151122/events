@@ -42,3 +42,22 @@ detect touch:->false
 'isTouch:->'false
 is_touch_device:->false
 detect touch:->false
+
+
+#events sequence:
+when detecting the sequence of events :
+e.preventDefault() can block event bubbling after touch
+
+the sequence of events fired :
+
+EVENT (...): touchstart
+EVENT (...): touchmove
+EVENT (...): touchend
+EVENT (...): mouseover
+EVENT (...): mousemove
+EVENT (...): mousedown
+EVENT (...): mouseup
+EVENT (...): click
+
+
+
