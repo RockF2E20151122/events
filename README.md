@@ -45,11 +45,23 @@ detect touch:->false
 
 
 #events sequence:
+1.
 when detecting the sequence of events :
-e.preventDefault() can block event bubbling after touch
+e.preventDefault() can block event bubbling after touch; so the 
 
+2.
+when preventDefault() of all times. the events can be fired are below:
+//if only touch
+EVENT (...): touchstart
+EVENT (...): touchend
+//if only mouse
+EVENT (...): mouseover
+EVENT (...): mousedown
+EVENT (...): mouseup
+EVENT (...): click
+
+3.
 the sequence of events fired :
-
 EVENT (...): touchstart
 EVENT (...): touchmove
 EVENT (...): touchend
