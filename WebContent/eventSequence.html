@@ -1,0 +1,106 @@
+<html>
+<head>
+<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script> -->
+<meta charset=utf-8 />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1,user-scalable=no ">
+<script>
+window.onload = function(){
+	
+	var $ = function(argu){
+		return document.querySelector(argu);
+	}
+	var log = function(msg) {
+		return function(e) {
+			var pre = $("pre");
+			pre.innerHTML += ("EVENT (" + new Date().getTime() + "): " + msg + "\n") ;
+				e.preventDefault();
+			/* if (e.type == "touchmove")
+				e.preventDefault(); */
+			pre.scrollTop = pre.offsetHeight ;
+		};
+	};
+	
+	$("div").on = function(){
+		var argu = arguments[0];
+		this.addEventListener( arguments[0], function(e){
+			log( argu )(e);
+		});
+	};
+	
+	$("div").on("touchstart", log );
+	$("div").on("touchcancel", log );
+	$("div").on("touchmove", log );
+	$("div").on("touchleave", log );
+	$("div").on("touchend", log );
+	
+	$("div").on("mouseover", log );
+	$("div").on("mousemove", log );
+	$("div").on("mousedown", log );
+	$("div").on("mouseup", log );
+	$("div").on("click", log );
+	$("div").on("dblclick", log );
+	$("div").on("context", log );
+}
+</script>
+<style>
+div {
+	border: solid 1px black;
+	padding: 10px;
+	margin: 10px;
+	background-color: black;
+	color: white;
+	cursor: pointer;
+	text-align: center;
+	text-transform: uppercase;
+	height: 200px;
+	vertical-align: middle;
+}
+#edit-with-js-bin {
+	display: none;
+}
+pre {
+	box-shadow: inset 0px 0px 5px black;
+	height: 200px;
+	overflow-y: auto
+}
+</style>
+</head>
+<body>
+	<div>Can touch this</div>
+	<h2>Output</h2>
+	<pre></pre>
+<!-- chrome && safari -->
+<!-- 
+EVENT (...): touchstart
+EVENT (...): touchend
+EVENT (...): mouseover
+EVENT (...): mousemove
+EVENT (...): mousedown
+EVENT (...): mouseup
+EVENT (...): click
+ -->
+ <!-- 
+EVENT (...): touchstart
+EVENT (...): touchmove
+EVENT (...): touchmove
+EVENT (...): touchend
+ -->
+
+ <!-- 
+CAN TOUCH THIS
+Output
+EVENT (1461836743192): mouseover
+EVENT (1461836743193): mousemove
+EVENT (1461836746632): mousemove
+EVENT (1461836747122): mousedown
+EVENT (1461836747135): mouseup
+EVENT (1461836747137): click
+EVENT (1461836757230): mousemove
+EVENT (1461836757702): mousemove
+EVENT (1461836758477): mousedown
+EVENT (1461836758492): mouseup
+EVENT (1461836758495): click
+  -->
+</body>
+</html>
