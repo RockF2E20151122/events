@@ -5,10 +5,10 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
 <!-- <meta name="viewport" content="initial-scale=1.0, width=device-width" /> -->
-<title>events detecting</title>
+<title>events detecting for map</title>
 <style>
 div#nodeId {
-	height: 200px;
+	height: 400px;
 	line-height: 200px;
 	border: 1px #eee solid;
 	border-radius: 10px;
@@ -16,12 +16,20 @@ div#nodeId {
 	/* width:100%; */
 	background: #eee;
 }
+pre {
+	box-shadow: inset 0px 0px 5px black;
+	height: 200px;
+	overflow-y: auto
+}
 </style>
 </head>
 
 <body>
 
 	<div id="nodeId">this is the event node</div>
+	
+	<h2>Output</h2>
+	<pre></pre>
 
 	<script type="text/javascript" src="script/lib/jquery-1.12.3.js"></script>
 	<script type="text/javascript" src="script/lib/raphael-2.1.4.js"></script>
