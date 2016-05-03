@@ -16,7 +16,7 @@ $(function() {
 	$node.on("touchstart", function(){
 		var argu = arguments[0];
 		if(arguments.callee.caller.arguments.touches && arguments.callee.caller.arguments.touches.length>1){
-			console.log('fuck')
+			alert('fuck')
 		}
 		
 	});
