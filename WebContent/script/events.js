@@ -3,7 +3,7 @@ $(function() {
 		var pre = $("pre");
 		var html = pre.html();
 		pre.append( "EVENT (" + new Date().getTime() + "): " + eventObj.type + "\n");
-		// e.preventDefault();
+		eventObj.preventDefault();
 		/*
 		 * if (e.type == "touchmove") e.preventDefault();
 		 */
@@ -13,13 +13,16 @@ $(function() {
 	 * 1. mouse events
 	 */
 	var $node = $('#nodeId');
-	$node.on("touchstart", function(){
-		var argu = arguments[0];
-		if(arguments.callee.caller.arguments.touches && arguments.callee.caller.arguments.touches.length>1){
-			alert('fuck')
-		}
-		
-	});
+	$node.on("touchstart", log );
+			
+//			function(){
+//		var argu = arguments[0];
+//		if(arguments.callee.caller.arguments.touches && arguments.callee.caller.arguments.touches.length>1){
+//			alert('fuck')
+//		}
+//		
+//	});
+	
 	$node.on("touchcancel", log);
 	$node.on("touchmove", log);
 	$node.on("touchleave", log);

@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>trace bubbling</title>
+<style type="text/css">
+a {
+	text-decoration: none;
+}
+
+div * {
+	display: block;
+	margin: 4px;
+	padding: 4px;
+	border: 1px white solid;
+}
+
+.redBorder {
+	border: 1px red solid;
+}
+
+.noBorder {
+	border: 1px white solid;
+}
+#logger{
+	height:30px; line-height:30px;
+}
+</style>
+<script type="text/javascript">
+	var $ = function(id) {
+		return document.getElementById(id);
+	};
+	function enableBubble() {
+		var div = $('div1');
+		var logger = $('logger');
+		var els = div.getElementsByTagName('*');//获取每一个元素：ul/li/a/span 
+		var fn1 = function(e) {
+			this.className = 'redBorder';
+			logger.innerHTML = "鼠标进入:" + this.nodeName;
+		}, fn2 = function(e) {
+			this.className = 'noBorder';
+			logger.innerHTML = '';
+		};
+		for (var i = 0; i < els.length; i++) {
+			var el = els[i]; //每一个元素都注册事件
+			el.addEventListener("mouseover", fn1, false); //false：冒泡阶段 
+			el.addEventListener("mouseout", fn2, false); //false：冒泡阶段 
+		};
+	};
+	function disableBubble() {
+		var div = $('div1');
+		var logger = $('logger');
+		var els = div.getElementsByTagName('*');
+		var fn1 = function(e) { //在增加的事件监听里加入毒药 
+			this.className = 'redBorder';
+			logger.innerHTML = "鼠标进入:" + this.nodeName;
+			if (e) { //标准事件模型：e为事件对象
+				e.stopPropagation();
+			} else if (window.event) { //IE中，Window.event才是事件对象 
+				window.event.cancelBubble = true; //对应不同的事件对象：在系统实际运行时，不可能在同一时刻处理两个事件 
+			}
+		};
+		var fn2 = function(e) {
+			this.className = 'noBorder';
+			logger.innerHTML = '';
+		};
+		for (var i = 0; i < els.length; i++) {
+			var el = els[i];
+			el.addEventListener("mouseover", fn1, false); //禁用冒泡之后，就可以准确获知事件当前所在的元素。 
+			el.addEventListener("mouseout", fn2, false); //禁用冒泡之后，就可以准确获知事件当前所在的元素。 
+		}
+		;
+	};
+	window.onload = function() {
+		enableBubble();
+	};
+	/* 默认使用冒泡模式给<ul>及它内部的每个<li>都注册了mouseover 和 mouseout 事件的监听函数。 由于事件不断“冒泡”，每次事件到达最深的目标节点<span>之后又会原路逐层返回，因此logger 中总是显示“鼠标进入UL”。 而禁用冒泡之后，就可以准确获知事件当前所在的元素。 在禁用事件冒泡的模式中，有这么一段代码： 
+	 if(e){                      //在标准事件模型中，引擎在调用监听函数时，会把事件对象e 作为参数传递给监听函数； 
+	 e.stopPropagation(); 
+	 }else if(window.event){     //而在IE 事件模型中，事件对象被放在全局共享的window.event 中，这里的if 和else判断就是为了兼容IE 而进行的处理。
+	 window.event.cancelBubble = true; 
+	 } 
+	 在系统实际运行时，不可能在同一时刻处理两个事件，因此IE 的这种设计模式也无可厚非，每次都把事件对象放在window.event 中是享元模式的另一个应用实例。 我们在第2 章解析DOM 时，曾经分析过Element.fly 函数，其设计思路是一样的。 */
+</script>
+</head>
+<body>
+	<div id="div1">
+		<ul id="container1">
+			<li><a href="#"><span id="target1">暮色苍茫看劲松，</span></a></li>
+			<li><a href="#"><span id="target2">乱云飞渡仍从容。</span></a></li>
+			<li><a href="#"><span id="target3">天生一个仙人洞，</span></a></li>
+			<li><a href="#"><span id="target4">无限风光在险峰。</span></a></li>
+		</ul>
+	</div>
+	<div id="logger">&nbsp;</div>
+	<input type="button" id="btn1" onclick="enableBubble()" value="fire bubbling" />
+	<input type="button" id="btn2" onclick="disableBubble()" value="forbidden bubbling" />
+</body>
+</html>
