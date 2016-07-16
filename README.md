@@ -1,4 +1,6 @@
 # deviceDetecting
+#events researching
+
 
 When deal with bug: SHAMP-11. 
 Only :
